@@ -16,6 +16,10 @@ uvicorn[standard]==0.34.0
 pydantic==2.10.6
 httpx==0.28.1
 
+# 测试框架
+pytest==8.3.5
+pytest-asyncio==0.25.3
+
 # 环境配置
 python-dotenv==1.0.1
 

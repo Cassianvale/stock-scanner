@@ -81,17 +81,29 @@ const debouncedSearch = debounce(async (keyword: string) => {
   loading.value = true;
   
   try {
-    if (props.marketType === 'US') {
-      // 美股搜索
-      const searchResults = await apiService.searchUsStocks(keyword);
-      // 限制只显示前10个结果
-      results.value = searchResults.slice(0, 10);
-    } else {
-      // 基金搜索
-      const searchResults = await apiService.searchFunds(keyword);
-      // 限制只显示前10个结果
-      results.value = searchResults.slice(0, 10);
+    let searchResults: SearchResult[] = [];
+    
+    switch(props.marketType) {
+      case 'US':
+        // 美股搜索
+        searchResults = await apiService.searchUsStocks(keyword);
+        break;
+      case 'A':
+        // A股搜索
+        searchResults = await apiService.searchAStocks(keyword);
+        break;
+      case 'HK':
+        // 港股搜索
+        searchResults = await apiService.searchHkStocks(keyword);
+        break;
+      default:
+        // 基金搜索
+        searchResults = await apiService.searchFunds(keyword);
+        break;
     }
+    
+    // 限制只显示前10个结果
+    results.value = searchResults.slice(0, 10);
   } catch (error) {
     console.error('搜索数据时出错:', error);
     results.value = [];

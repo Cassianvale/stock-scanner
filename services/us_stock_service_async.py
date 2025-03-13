@@ -74,7 +74,7 @@ class USStockServiceAsync:
         try:
             # 获取美股数据
             df = ak.stock_us_spot_em()
-            
+            logger.info(f"美股原始数据列名: {df.columns.tolist()}")
             # 转换列名
             df = df.rename(columns={
                 "序号": "index",

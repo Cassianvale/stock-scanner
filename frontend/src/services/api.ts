@@ -116,6 +116,32 @@ export const apiService = {
     }
   },
 
+  // 搜索A股
+  searchAStocks: async (keyword: string): Promise<SearchResult[]> => {
+    try {
+      const response = await axiosInstance.get('/search_a_stocks', {
+        params: { keyword }
+      });
+      return response.data.results || [];
+    } catch (error) {
+      console.error('搜索A股时出错:', error);
+      return [];
+    }
+  },
+
+  // 搜索港股
+  searchHkStocks: async (keyword: string): Promise<SearchResult[]> => {
+    try {
+      const response = await axiosInstance.get('/search_hk_stocks', {
+        params: { keyword }
+      });
+      return response.data.results || [];
+    } catch (error) {
+      console.error('搜索港股时出错:', error);
+      return [];
+    }
+  },
+
   // 搜索基金
   searchFunds: async (keyword: string): Promise<SearchResult[]> => {
     try {
