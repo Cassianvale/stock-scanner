@@ -21,6 +21,7 @@ build_upload.log
 *.spec
 *.zip
 .env
+.env.*
 
 # frontend
 node_modules/
@@ -38,6 +39,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.vite
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

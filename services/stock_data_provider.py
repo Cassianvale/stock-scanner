@@ -184,9 +184,16 @@ class StockDataProvider:
                 except Exception as e:
                     logger.warning(f"日期过滤出错: {str(e)}，返回原始数据")
                     
-            elif market_type in ['ETF', 'LOF']:
+            elif market_type in ['ETF']:
                 logger.debug(f"获取{market_type}基金数据: {stock_code}")
-                df = ak.fund_etf_hist_sina(
+                df = ak.fund_etf_hist_em(
+                    symbol=stock_code,
+                    start_date=start_date.replace('-', ''),
+                    end_date=end_date.replace('-', '')
+                )
+            elif market_type in ['LOF']:
+                logger.debug(f"获取{market_type}基金数据: {stock_code}")
+                df = ak.fund_lof_hist_em(
                     symbol=stock_code,
                     start_date=start_date.replace('-', ''),
                     end_date=end_date.replace('-', '')
@@ -230,7 +237,7 @@ class StockDataProvider:
                 
             elif market_type in ['ETF', 'LOF']:
                 # 基金数据可能有不同的列
-                df.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Volume', 'Amount']
+                df.columns = ['Date', 'Open', 'Close', 'High', 'Low', 'Volume', 'Amount', 'Amplitude', 'Change_pct', 'Change', 'Turnover']
                 
             # 确保日期列是日期类型
             if 'Date' in df.columns:

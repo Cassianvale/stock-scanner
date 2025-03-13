@@ -43,7 +43,7 @@ export interface SearchResult {
   symbol: string;
   name: string;
   market: string;
-  marketValue?: number;
+  market_value?: number;
 }
 
 export interface MarketStatus {

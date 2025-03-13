@@ -115,6 +115,19 @@ export const apiService = {
       return [];
     }
   },
+
+  // 搜索基金
+  searchFunds: async (keyword: string): Promise<SearchResult[]> => {
+    try {
+      const response = await axiosInstance.get('/search_funds', {
+        params: { keyword }
+      });
+      return response.data.results || [];
+    } catch (error) {
+      console.error('搜索基金时出错:', error);
+      return [];
+    }
+  },
   
   // 获取配置
   getConfig: async () => {

@@ -2,7 +2,7 @@
   <div class="stock-search-container">
     <n-input
       v-model:value="searchKeyword"
-      placeholder="输入股票代码或名称搜索"
+      placeholder="输入代码或名称搜索"
       @input="handleSearchInput"
       @blur="handleBlur"
       @focus="handleFocus"
@@ -20,7 +20,7 @@
       </div>
       
       <div v-else-if="results.length === 0 && searchKeyword" class="no-results">
-        未找到相关股票
+        未找到相关数据
       </div>
       
       <template v-else>
@@ -37,8 +37,8 @@
             </div>
             <div class="result-meta">
               <span class="result-market">{{ item.market }}</span>
-              <span v-if="item.marketValue" class="result-market-value">
-                市值: {{ formatMarketValue(item.marketValue) }}
+              <span v-if="item.market_value" class="result-market-value">
+                市值: {{ formatMarketValue(item.market_value) }}
               </span>
             </div>
           </div>
@@ -87,11 +87,13 @@ const debouncedSearch = debounce(async (keyword: string) => {
       // 限制只显示前10个结果
       results.value = searchResults.slice(0, 10);
     } else {
-      // 其他市场搜索 (后端需要实现对应的接口)
-      results.value = [];
+      // 基金搜索
+      const searchResults = await apiService.searchFunds(keyword);
+      // 限制只显示前10个结果
+      results.value = searchResults.slice(0, 10);
     }
   } catch (error) {
-    console.error('搜索股票时出错:', error);
+    console.error('搜索数据时出错:', error);
     results.value = [];
   } finally {
     loading.value = false;

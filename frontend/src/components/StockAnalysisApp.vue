@@ -37,7 +37,7 @@
                   />
                 </n-form-item>
                 
-                <n-form-item label="股票搜索" v-if="marketType === 'US'">
+                <n-form-item :label='marketType === "US" ? "股票搜索" : "基金搜索"' v-if="showSearch">
                   <StockSearch :market-type="marketType" @select="addSelectedStock" />
                 </n-form-item>
                 
@@ -45,7 +45,7 @@
                   <n-input
                     v-model:value="stockCodes"
                     type="textarea"
-                    placeholder="输入股票代码，多个代码用逗号、空格或换行分隔"
+                    placeholder="输入股票、基金代码，多个代码用逗号、空格或换行分隔"
                     :autosize="{ minRows: 3, maxRows: 6 }"
                   />
                 </n-form-item>
@@ -241,9 +241,9 @@ const showAnnouncement = (content: string) => {
 const marketOptions = [
   { label: 'A股', value: 'A' },
   { label: '港股', value: 'HK' },
-  { label: '美股', value: 'US' },
-  { label: 'ETF', value: 'ETF' },
-  { label: 'LOF', value: 'LOF' }
+  { label: '美股', value: 'US', showSearch: true },
+  { label: 'ETF', value: 'ETF', showSearch: true  },
+  { label: 'LOF', value: 'LOF', showSearch: true  }
 ];
 
 // 表格列定义
@@ -398,6 +398,10 @@ const exportOptions = [
     key: 'pdf'
   }
 ];
+
+const showSearch = computed(() => 
+  marketOptions.find(option => option.value === marketType.value)?.showSearch
+);
 
 // 更新API配置
 function updateApiConfig(config: ApiConfig) {
